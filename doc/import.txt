@@ -1,0 +1,29 @@
+comandos knex 
+
+insstalar o knex de forma globar para usar os comandos
+npm i knex -g
+
+
+
+arquivo de conexao com o banco de dados 
+- knex init 
+
+
+Migrate
+- knex migrate:make create_table_user
+- knex migrate:make create_table_categories
+- knex migrate:make create_table_articles
+
+
+executando a migrate
+- knex migrate:latest
+
+executar um rollback 
+- knex migrate:rollback
+
+
+
+comandos postgres 
+ pqsl -U postgres
+     \c banco
+     \dt listar tabelas
