@@ -24,6 +24,33 @@ executar um rollback
 
 
 comandos postgres 
- pqsl -U postgres
+psql -U postgres
      \c banco
      \dt listar tabelas
+
+
+ALTER TABLE articles RENAME COLUMN imagUrl TO imageUrl;
+
+
+WITH RECURSIVE subcategories (id) AS (
+            SELECT id FROM categories WHERE id = 1
+            UNION ALL
+            SELECT c.id FROM subcategories, categories c
+                WHERE "parentId" = subcategories.id    
+        )
+        SELECT id FROM subcategories;
+
+
+<template>
+    
+</template>
+
+<script>
+export default {
+
+}
+</script>
+
+<style>
+
+</style>

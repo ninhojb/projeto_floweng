@@ -6,7 +6,7 @@ exports.up = function(knex, Promise) {
     return knex.schema.createTable('articles', table => {
         table.increments('id').primary()
         table.string('name').notNull()
-        table.string('descriotion', 1000).notNull()
+        table.string('description', 1000).notNull()
         table.string('imagUrl', 1000)
         table.binary('content').notNull()
         table.integer('userId').references('id')
