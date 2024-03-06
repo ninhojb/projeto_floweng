@@ -1,23 +1,67 @@
 <template>
-	<div id="app">
-		<Header title="Floweng engenharia" :hideToggle="false" />
-		<Menu />
-		<Content />
+	<div id="app" :class="{'hide-menu': !isMenuVisible || !user}">
+		<Header title="Cod3r - Base de Conhecimento" 
+			:hideToggle="!user"
+			:hideUserDropdown="!user" />
+		<Menu v-if="user" />
+		<Loading v-if="validatingToken" />
+		<Content v-else />
 		<Footer />
 	</div>
 </template>
 
 <script>
-
-import Header from "./components/template/Header"
-import Menu from "./components/template/Menu"
-import Content from "./components/template/Content"
-import Footer from "./components/template/Footer"
-
+import axios from "axios"
+import { baseApiUrl, userKey } from "@/global"
+import { mapState } from "vuex"
+import Header from "@/components/template/Header"
+import Menu from "@/components/template/Menu"
+import Content from "@/components/template/Content"
+import Footer from "@/components/template/Footer"
+import Loading from "@/components/template/Loading"
 
 export default {
 	name: "App",
-	components: { Header, Menu, Content, Footer}
+	components: { Header, Menu, Content, Footer, Loading },
+	computed: mapState(['isMenuVisible', 'user']),
+	data: function() {
+		return {
+			validatingToken: true
+		}
+	},
+	methods: {
+		async validateToken() {
+			this.validatingToken = true
+
+			const json = localStorage.getItem(userKey)
+			const userData = JSON.parse(json)
+			this.$store.commit('setUser', null)
+
+			if(!userData) {
+				this.validatingToken = false
+				this.$router.push({ name: 'auth' })
+				return
+			}
+
+			const res = await axios.post(`${baseApiUrl}/validateToken`, userData)
+
+			if (res.data) {
+				this.$store.commit('setUser', userData)
+				
+				if(this.$mq === 'xs' || this.$mq === 'sm') {
+					this.$store.commit('toggleMenu', false)
+				}
+			} else {
+				localStorage.removeItem(userKey)
+				this.$router.push({ name: 'auth' })
+			}
+
+			this.validatingToken = false
+		}
+	},
+	created() {
+		this.validateToken()
+	}
 }
 </script>
 
@@ -44,4 +88,10 @@ export default {
 			"menu footer";
 	}
 
+	#app.hide-menu {
+		grid-template-areas:
+			"header header"
+			"content content"
+			"footer footer";
+	}
 </style>

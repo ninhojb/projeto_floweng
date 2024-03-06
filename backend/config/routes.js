@@ -57,4 +57,13 @@ module.exports = app => {
         .all(app.config.passport.authenticate())
         .get(app.api.stat.get)
 
+    app.route('/department')
+        .all(app.config.passport.authenticate())
+        .post(app.api.department.save)
+        .get(app.api.department.get)
+    
+    app.route('/department/:id')
+        .delete(app.api.department.remove)
+        .get(app.api.department.getById)
+
 }
