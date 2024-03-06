@@ -4,14 +4,15 @@ module.exports = app => {
     const save = (req, res) => {
         const department = {
             id: req.body.id,
-            name: req.body.name            
+            name: req.body.name,
+            updated_at: new Date()
         }
         if(req.params.id) department.id = req.params.id
 
         try {
             existsOrError(department.name, 'Nome não informado')
         } catch (msg) {
-            return res.status(400).send(msg)
+            res.status(400).send(msg)
         }
 
         if(department.id) {
@@ -28,10 +29,16 @@ module.exports = app => {
         }
     }
 
-    const get = (req, res) => {
+    const limit = 10 // usado para paginação
+    const get = async (req, res) => {
+        const page = req.query.page || 1
+        const result = await app.db('department').count('id').first()
+        const count = parseInt(result.count)
+
         app.db('department')
             .select('id', 'name', 'created_at', 'update_at')
-            .then(departments => res.json(departments))
+            .limit(limit).offset(page * limit - limit)
+            .then(departments => res.json({ data: departments, count, limit }))
             .catch(err => res.status(500).send(err))
     }
 

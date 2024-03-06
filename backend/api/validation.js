@@ -5,7 +5,7 @@ module.exports = app => {
         if(typeof value === 'string' && !value.trim()) throw msg
     }
     
-    function notExistsOrError(value, ms) {
+    function notExistsOrError(value, msg) {
         try {
             existsOrError(value, msg)
         } catch(msg) {

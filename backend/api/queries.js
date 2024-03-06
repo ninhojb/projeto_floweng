@@ -8,7 +8,16 @@ module.exports = {
         )
         SELECT id FROM subcategories
 
+    `,
+    supportWithDepart:
     `
-
+    SELECT * 
+    FROM support S
+    INNER JOIN users u
+        ON  s.id_user = u.id
+    INNER JOIN department d
+        ON s.id_depart = d.id  
+    
+    `
 
 }
