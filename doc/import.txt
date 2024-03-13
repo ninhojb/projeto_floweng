@@ -24,7 +24,7 @@ executar um rollback
 
 
 comandos postgres 
-psql -U postgres
+psql -U floweng
      \c banco
      \dt listar tabelas
 

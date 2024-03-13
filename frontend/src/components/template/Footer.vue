@@ -1,12 +1,13 @@
 <template>
-    <footer class="footer">
-        <span>Copyright <strong>Cod3r</strong> © 2015-2018</span>
-    </footer>
+  <footer class="footer">
+    <span>Copyrigth <strong>Floweng</strong></span>
+  </footer>
 </template>
 
 <script>
 export default {
-    name: "Footer"
+    name: 'Footer'
+
 }
 </script>
 

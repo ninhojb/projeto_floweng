@@ -4,10 +4,11 @@
             <i class="fa fa-lg" :class="icon"></i>
         </a>
         <h1 class="title">
-            <router-link to="/">{{ title }}</router-link>
+            {{ title }}
         </h1>
         <UserDropdown v-if="!hideUserDropdown" />
     </header>
+  
 </template>
 
 <script>
@@ -23,7 +24,7 @@ export default {
     },
     computed: {
         icon() {
-            return this.$store.state.isMenuVisible ? "fa-angle-left" : "fa-angle-down"
+            return this.$store.state.isMenuVisible ?  "fa-angle-left" : "fa-angle-down"
         }
     },
     methods: {
@@ -31,6 +32,7 @@ export default {
             this.$store.commit('toggleMenu')
         }
     }
+
 }
 </script>
 
@@ -57,11 +59,6 @@ export default {
         text-decoration: none;
     }
 
-    .title a:hover {
-        color: #FFF;
-        text-decoration: none;
-    }
-
     header.header > a.toggle {
         width: 60px;
         height: 100%;
@@ -72,10 +69,13 @@ export default {
         display: flex;
         justify-content: center;
         align-items: center;
+
     }
 
     header.header > a.toggle:hover {
         color: #fff;
         background-color: rgba(0, 0, 0, 0.2);
     }
+
+
 </style>
